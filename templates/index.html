@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+
+{% block title %}窗帘之家 - 专业窗帘定制{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>为您的家居带来高品质窗帘</h1>
+        <p>我们提供各种样式的现代窗帘、窗纱和百叶窗，为您的家居增添温馨与品味</p>
+        <div class="hero-buttons">
+            <a href="/products" class="btn btn-primary">浏览产品</a>
+            <a href="/contact" class="btn btn-secondary">联系我们</a>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products Section -->
+<section class="featured-products">
+    <div class="container">
+        <div class="section-header">
+            <h2>精选产品</h2>
+            <p>我们精选多种风格的窗帘产品，满足您不同空间的装饰需求</p>
+        </div>
+        
+        <div class="products-grid">
+            {% for product in featured_products %}
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="{{ url_for('static', filename='images/' + product.image) }}" alt="{{ product.name }}">
+                </div>
+                <div class="product-info">
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.description }}</p>
+                    <a href="/products/{{ product.id }}" class="product-link">查看详情 &rarr;</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="section-footer">
+            <a href="/products" class="btn btn-outline">查看全部产品</a>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="about-section">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-image">
+                <img src="{{ url_for('static', filename='images/shop-interior.jpg') }}" alt="窗帘之家实体店">
+            </div>
+            
+            <div class="about-content">
+                <h2>关于国清曦窗帘加工部</h2>
+                <p>
+                    北京国清曦窗帘加工部成立于2006年，是北京市顺义区知名的窗帘专卖店。我们专注于提供高品质的窗帘产品和专业的定制服务，
+                    致力于为每一位客户打造温馨、舒适的家居环境。
+                </p>
+                
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>专业窗帘定制服务</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>十年以上行业经验</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>高品质面料选择</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>免费上门测量</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>专业安装团队</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>售后无忧保障</span>
+                    </div>
+                </div>
+                
+                <a href="/about" class="btn btn-primary">了解更多</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Service Process Section -->
+<section class="service-process">
+    <div class="container">
+        <div class="section-header">
+            <h2>我们的服务流程</h2>
+            <p>从咨询到安装，我们提供全程无忧的专业服务</p>
+        </div>
+        
+        <div class="process-grid">
+            {% for step in process_steps %}
+            <div class="process-card">
+                <div class="icon">
+                    <i class="fas {{ step.icon }}"></i>
+                </div>
+                <h3>{{ step.title }}</h3>
+                <p>{{ step.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials">
+    <div class="container">
+        <div class="section-header">
+            <h2>客户评价</h2>
+            <p>听听我们的客户怎么说</p>
+        </div>
+        
+        <div class="testimonial-grid">
+            {% for testimonial in testimonials %}
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <div class="avatar">
+                        <img src="{{ url_for('static', filename='images/' + testimonial.avatar) }}" alt="{{ testimonial.name }}">
+                    </div>
+                    <div class="user-info">
+                        <h4>{{ testimonial.name }}</h4>
+                        <div class="rating">
+                            {% for i in range(testimonial.rating) %}
+                            <i class="fas fa-star"></i>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <p class="comment">"{{ testimonial.comment }}"</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Contact CTA Section -->
+<section class="contact-cta">
+    <div class="container">
+        <div class="cta-grid">
+            <div class="cta-content">
+                <h2>联系我们</h2>
+                <p>欢迎前来我们的实体店咨询或预约测量服务，我们期待为您提供专业的窗帘解决方案。</p>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>{{ shop_info.phone }}</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>{{ shop_info.address }}</span>
+                    </div>
+                </div>
+                
+                <a href="/contact" class="btn btn-light">查看地图位置</a>
+            </div>
+            
+            <div class="hours-card">
+                <h3>营业时间</h3>
+                <div class="hours-list">
+                    {% for day, hours in shop_info.hours.items() %}
+                    <div class="hour-item">
+                        <span>{{ day }}</span>
+                        <span>{{ hours }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                <p class="note">如需特殊时间预约，请提前联系我们</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

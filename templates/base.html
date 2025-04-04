@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}北京国清曦窗帘加工{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="/">国清曦窗帘加工部</a>
+                </div>
+                
+                <nav class="main-nav">
+                    <ul class="nav-links">
+                        <li><a href="/">首页</a></li>
+                        <li><a href="/products">产品展示</a></li>
+                        <li><a href="/cases">案例展示</a></li>
+                        <li><a href="/services">服务流程</a></li>
+                        <li><a href="/about">关于我们</a></li>
+                        <li><a href="/contact">联系我们</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>13716958774</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>北京市顺义区李遂镇沟北村窗帘布艺大全（顺平南线店）</span>
+                    </div>
+                </div>
+                
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <div class="mobile-menu">
+                <nav>
+                    <ul>
+                        <li><a href="/">首页</a></li>
+                        <li><a href="/products">产品展示</a></li>
+                        <li><a href="/cases">案例展示</a></li>
+                        <li><a href="/services">服务流程</a></li>
+                        <li><a href="/about">关于我们</a></li>
+                        <li><a href="/contact">联系我们</a></li>
+                    </ul>
+                    <div class="mobile-contact">
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>13716958774</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>北京市顺义区李遂镇沟北村窗帘布艺大全（顺平南线店）</span>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash-message {{ category }}">
+                            <div class="container">
+                                <div class="message-content">
+                                    {{ message }}
+                                    <button class="close-flash"><i class="fas fa-times"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <h3>北京国清曦窗帘加工部</h3>
+                    <p>专业窗帘定制，为您的家居增添温馨与品味</p>
+                    <div class="footer-contact">
+                        <div><i class="fas fa-phone"></i> 13716958774</div>
+                        <div><i class="fas fa-map-marker-alt"></i> 北京市顺义区李遂镇沟北村窗帘布艺大全（顺平南线店）</div>
+                        <div><i class="fas fa-envelope"></i> 2568055317@qq.com</div>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="/">首页</a></li>
+                        <li><a href="/products">产品展示</a></li>
+                        <li><a href="/cases">案例展示</a></li>
+                        <li><a href="/services">服务流程</a></li>
+                        <li><a href="/about">关于我们</a></li>
+                        <li><a href="/contact">联系我们</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-products">
+                    <h3>产品分类</h3>
+                    <ul>
+                        <li><a href="/products/category/curtains">窗帘</a></li>
+                        <li><a href="/products/category/sheers">窗纱</a></li>
+                        <li><a href="/products/category/blinds">百叶窗</a></li>
+                        <li><a href="/products/category/rollers">卷帘</a></li>
+                        <li><a href="/products/category/accessories">窗帘配件</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-hours">
+                    <h3>营业时间</h3>
+                    <div class="hours-list">
+                        <div class="hour-item">
+                            <span>周一至周五</span>
+                            <span>9:00 - 18:00</span>
+                        </div>
+                        <div class="hour-item">
+                            <span>周六</span>
+                            <span>9:00 - 17:00</span>
+                        </div>
+                        <div class="hour-item">
+                            <span>周日</span>
+                            <span>10:00 - 16:00</span>
+                        </div>
+                    </div>
+                    
+                    <h3>关注我们</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; <span id="current-year"></span> 国清曦窗帘加工部 版权所有</p>
+            </div>
+            
+            <script>
+                document.getElementById('current-year').textContent = new Date().getFullYear();
+            </script>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

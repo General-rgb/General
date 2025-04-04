@@ -1,0 +1,330 @@
+{% extends 'base.html' %}
+
+{% block title %}地图位置 - 北京国清曦窗帘加工{% endblock %}
+
+{% block extra_css %}
+<style>
+    .map-header {
+        background-color: var(--background-light);
+        padding: 3rem 0;
+        text-align: center;
+    }
+    
+    .map-header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .map-header p {
+        color: var(--text-light);
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .map-content {
+        padding: 3rem 0;
+    }
+    
+    .map-container {
+        height: 600px;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        margin-bottom: 3rem;
+    }
+    
+    #fullBaiduMap {
+        width: 100%;
+        height: 100%;
+    }
+    
+    .navigation-info {
+        background-color: white;
+        border-radius: 0.5rem;
+        box-shadow: var(--shadow);
+        padding: 2rem;
+        margin-bottom: 3rem;
+    }
+    
+    .navigation-info h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        color: var(--primary-color);
+    }
+    
+    .navigation-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .nav-method {
+        display: flex;
+        align-items: flex-start;
+    }
+    
+    .nav-icon {
+        font-size: 2rem;
+        color: var(--primary-color);
+        margin-right: 1rem;
+        flex-shrink: 0;
+    }
+    
+    .nav-details h3 {
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .nav-details p {
+        color: var(--text-light);
+        margin-bottom: 0.5rem;
+    }
+    
+    .directions-list {
+        margin-top: 1rem;
+        padding-left: 1.5rem;
+    }
+    
+    .directions-list li {
+        margin-bottom: 0.5rem;
+        position: relative;
+        list-style-type: none;
+    }
+    
+    .directions-list li::before {
+        content: '•';
+        position: absolute;
+        left: -1.5rem;
+        color: var(--primary-color);
+    }
+    
+    .qr-codes {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+    }
+    
+    .qr-code-item {
+        background-color: white;
+        border-radius: 0.5rem;
+        box-shadow: var(--shadow);
+        padding: 2rem;
+    }
+    
+    .qr-code-item h3 {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+    }
+    
+    .qr-code-img {
+        max-width: 180px;
+        margin: 0 auto 1rem;
+        padding: 10px;
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+    }
+    
+    .qr-code-item p {
+        color: var(--text-light);
+        font-size: 0.875rem;
+    }
+    
+    @media (min-width: 768px) {
+        .navigation-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .qr-codes {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    @media (min-width: 1024px) {
+        .qr-codes {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Map Header -->
+<section class="map-header">
+    <div class="container">
+        <h1>地图位置</h1>
+        <p>国清曦窗帘加工部位于北京市顺义区李遂镇沟北村窗帘布艺大全（顺平南线店），以下提供多种导航方式供您参考</p>
+    </div>
+</section>
+
+<!-- Map Content -->
+<section class="map-content">
+    <div class="container">
+        <!-- 大地图 -->
+        <div class="map-container">
+            <div id="fullBaiduMap"></div>
+        </div>
+        
+        <!-- 导航信息 -->
+        <div class="navigation-info">
+            <h2>如何到达我们</h2>
+            <div class="navigation-grid">
+                <div class="nav-method">
+                    <div class="nav-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div class="nav-details">
+                        <h3>驾车导航</h3>
+                        <p>从北京市区出发约需45分钟</p>
+                        <ul class="directions-list">
+                            <li>从北京市区出发，可走京承高速</li>
+                            <li>在李遂出口下高速</li>
+                            <li>按导航指引前往沟北村窗帘布艺大全</li>
+                            <li>寻找"顺平南线店"门店</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="nav-method">
+                    <div class="nav-icon">
+                        <i class="fas fa-bus"></i>
+                    </div>
+                    <div class="nav-details">
+                        <h3>公共交通</h3>
+                        <p>地铁与公交换乘约需1小时30分钟</p>
+                        <ul class="directions-list">
+                            <li>乘坐地铁15号线至后沙峪站</li>
+                            <li>换乘公交快速直达李遂镇</li>
+                            <li>在李遂镇站下车</li>
+                            <li>步行约15分钟至沟北村二条</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="nav-method">
+                    <div class="nav-icon">
+                        <i class="fas fa-taxi"></i>
+                    </div>
+                    <div class="nav-details">
+                        <h3>打车</h3>
+                        <p>从顺义区中心打车约25分钟</p>
+                        <ul class="directions-list">
+                            <li>可向司机直接说明前往"顺义区李遂镇沟北村窗帘布艺大全"</li>
+                            <li>提醒是"顺平南线店"</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="nav-method">
+                    <div class="nav-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <div class="nav-details">
+                        <h3>定位点</h3>
+                        <p>可使用手机地图搜索以下关键词</p>
+                        <ul class="directions-list">
+                            <li>"国清曦窗帘加工部"</li>
+                            <li>"顺义区李遂镇沟北村窗帘布艺大全"</li>
+                            <li>或直接扫描右侧提供的导航二维码</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 二维码区域 -->
+        <div class="qr-codes">
+            <div class="qr-code-item">
+                <h3>百度地图导航</h3>
+                <img id="baiduQrCode" class="qr-code-img" src="" alt="百度地图导航">
+                <p>使用百度地图App扫描此码直接导航</p>
+            </div>
+            
+            <div class="qr-code-item">
+                <h3>高德地图导航</h3>
+                <img id="amapQrCode" class="qr-code-img" src="" alt="高德地图导航">
+                <p>使用高德地图App扫描此码直接导航</p>
+            </div>
+            
+            <div class="qr-code-item">
+                <h3>微信位置分享</h3>
+                <img id="wechatQrCode" class="qr-code-img" src="" alt="微信位置导航">
+                <p>在微信中打开此码可查看位置并导航</p>
+            </div>
+        </div>
+        
+        <!-- 联系信息 -->
+        <div class="contact-info-banner" style="text-align: center; margin-top: 2rem;">
+            <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">如有任何问题，请联系我们</h3>
+            <p style="margin-bottom: 0.5rem;"><i class="fas fa-phone" style="color: var(--primary-color);"></i> 13716958774</p>
+            <a href="{{ url_for('contact') }}" class="btn btn-primary" style="margin-top: 1rem;">联系我们</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://api.map.baidu.com/api?v=3.0&ak=YOUR_BAIDU_MAP_KEY"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 初始化百度地图
+        function initMap() {
+            // 创建地图实例
+            var map = new BMap.Map("fullBaiduMap");
+            
+            // 创建点坐标 (需要使用经纬度，这里使用默认值，实际使用时请替换为正确的经纬度)
+            var point = new BMap.Point(116.518, 40.225); // 北京顺义区坐标，请替换为实际坐标
+            
+            // 初始化地图，设置中心点坐标和地图级别
+            map.centerAndZoom(point, 15);
+            
+            // 添加地图控件
+            map.addControl(new BMap.NavigationControl());    // 添加平移缩放控件
+            map.addControl(new BMap.ScaleControl());         // 添加比例尺控件
+            map.addControl(new BMap.OverviewMapControl());   // 添加缩略地图控件
+            map.enableScrollWheelZoom();                     // 启用滚轮放大缩小
+            
+            // 创建标注
+            var marker = new BMap.Marker(point);
+            map.addOverlay(marker);
+            
+            // 创建信息窗口
+            var infoWindow = new BMap.InfoWindow(
+                "<div style='padding:10px;'>" +
+                "<h4 style='margin:0 0 5px 0;'>北京国清曦窗帘加工部</h4>" +
+                "<p style='margin:0;'>地址：北京市顺义区李遂镇沟北村窗帘布艺大全（顺平南线店）</p>" +
+                "<p style='margin:5px 0 0 0;'>电话：13716958774</p>" +
+                "</div>"
+            );
+            
+            // 点击标注时显示信息窗口
+            marker.addEventListener("click", function() {
+                map.openInfoWindow(infoWindow, point);
+            });
+            
+            // 自动打开信息窗口
+            map.openInfoWindow(infoWindow, point);
+            
+            // 创建不同地图的导航二维码
+            var address = '北京市顺义区李遂镇沟北村窗帘布艺大全（顺平南线店）';
+            
+            // 百度地图导航二维码
+            document.getElementById('baiduQrCode').src = 'https://api.map.baidu.com/generateQR?width=180&height=180&url=' + 
+                encodeURIComponent('https://api.map.baidu.com/direction?origin=&destination=' + address + '&mode=driving&region=北京&output=html');
+            
+            // 高德地图和微信导航可以使用在线二维码生成器服务
+            // 以下URL需要替换为实际可用的二维码生成服务
+            var amapUrl = 'https://uri.amap.com/navigation?to=116.518,40.225,北京国清曦窗帘加工部&mode=car&src=mypage&coordinate=gaode';
+            var wechatUrl = 'https://apis.map.qq.com/uri/v1/marker?marker=coord:40.225,116.518;title:北京国清曦窗帘加工部;addr:' + address;
+            
+            // 使用二维码API生成（这里使用占位符，实际应使用可用的二维码生成API）
+            document.getElementById('amapQrCode').src = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=' + encodeURIComponent(amapUrl);
+            document.getElementById('wechatQrCode').src = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=' + encodeURIComponent(wechatUrl);
+        }
+        
+        // 调用初始化地图函数
+        initMap();
+    });
+</script>
+{% endblock %} 

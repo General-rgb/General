@@ -1,0 +1,242 @@
+{% extends 'base.html' %}
+
+{% block title %}产品展示 - 北京国清曦窗帘加工{% endblock %}
+
+{% block extra_css %}
+<style>
+    .products-header {
+        background-color: var(--background-light);
+        padding: 3rem 0;
+        text-align: center;
+    }
+    
+    .products-header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .products-header p {
+        color: var(--text-light);
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .products-container {
+        padding: 4rem 0;
+    }
+    
+    .filter-section {
+        margin-bottom: 3rem;
+    }
+    
+    .filter-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+    
+    .category-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .category-filter {
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+        background-color: var(--background-light);
+        color: var(--text-color);
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .category-filter:hover {
+        background-color: #e5e7eb;
+    }
+    
+    .category-filter.active {
+        background-color: var(--primary-color);
+        color: white;
+    }
+    
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 2rem;
+    }
+    
+    .product-card {
+        border-radius: 0.5rem;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background-color: white;
+    }
+    
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .product-image {
+        position: relative;
+        height: 250px;
+        overflow: hidden;
+    }
+    
+    .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .product-card:hover .product-image img {
+        transform: scale(1.05);
+    }
+    
+    .product-category {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        background-color: var(--primary-color);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+    
+    .product-info {
+        padding: 1.5rem;
+    }
+    
+    .product-name {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+    
+    .product-description {
+        color: var(--text-light);
+        margin-bottom: 1rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    .product-features {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .feature-tag {
+        background-color: var(--background-light);
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.75rem;
+        color: var(--text-light);
+    }
+    
+    .product-link {
+        color: var(--primary-color);
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+    
+    .product-link:hover {
+        color: var(--primary-dark);
+    }
+    
+    .no-products {
+        text-align: center;
+        padding: 3rem;
+        color: var(--text-light);
+    }
+    
+    @media (min-width: 768px) {
+        .products-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    @media (min-width: 1024px) {
+        .products-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Products Header -->
+<section class="products-header">
+    <div class="container">
+        <h1>产品展示</h1>
+        <p>我们提供各种高品质的窗帘产品，包括窗帘、窗纱、百叶窗、卷帘以及窗帘配件，为您的家居带来全面的窗饰解决方案</p>
+    </div>
+</section>
+
+<!-- Products Display -->
+<section class="products-container">
+    <div class="container">
+        <!-- 过滤器 -->
+        <div class="filter-section">
+            <h3 class="filter-title">按产品分类</h3>
+            <div class="category-filters">
+                <a href="{{ url_for('products') }}" class="category-filter {% if not current_category %}active{% endif %}">全部</a>
+                {% for category in categories %}
+                <a href="{{ url_for('products', category=category.id) }}" class="category-filter {% if current_category == category.id %}active{% endif %}">{{ category.name }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <!-- 产品展示 -->
+        {% if products %}
+        <div class="products-grid">
+            {% for product in products %}
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="{{ url_for('static', filename='images/' + product.images[0]) }}" alt="{{ product.name }}">
+                    {% for category in categories %}
+                        {% if category.id == product.category %}
+                        <div class="product-category">{{ category.name }}</div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">{{ product.name }}</h3>
+                    <p class="product-description">{{ product.description }}</p>
+                    <div class="product-features">
+                        {% for feature in product.features %}
+                        <span class="feature-tag">{{ feature }}</span>
+                        {% endfor %}
+                    </div>
+                    <a href="/products/{{ product.id }}" class="product-link">查看详情 &rarr;</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-products">
+            <h3>抱歉，没有找到相关产品</h3>
+            <p>请尝试其他分类或联系我们了解更多信息</p>
+            <a href="{{ url_for('products') }}" class="btn btn-primary">查看所有产品</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 如果需要添加任何特定于产品页面的JavaScript交互，可以在这里添加
+    });
+</script>
+{% endblock %} 
